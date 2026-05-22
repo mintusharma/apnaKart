@@ -4,6 +4,7 @@ import supabase from "../../../config/supabase/supabase";
 
 import { SignupInput } from "../schema/auth.schema";
 import { LoginInput } from "../schema/auth.schema";
+import { UpdateProfileInput } from "../schema/auth.schema";
 
 
 export const signupUser = async (
@@ -56,4 +57,57 @@ export const loginUser = async (
   }
 
   return user;
+};
+
+export const getCurrentUser =
+  async (userId: string) => {
+
+    const { data, error } =
+      await supabase
+        .from("users")
+        .select(`
+          id,
+          name,
+          email,
+          phone,
+          avatar,
+          address,
+          created_at
+        `)
+        .eq("id", userId)
+        .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
+};
+
+export const updateProfile =
+  async (
+    userId: string,
+    payload: UpdateProfileInput
+  ) => {
+
+    const { data, error } =
+      await supabase
+        .from("users")
+        .update(payload)
+        .eq("id", userId)
+        .select(`
+          id,
+          name,
+          email,
+          phone,
+          avatar,
+          address
+        `)
+        .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
 };
