@@ -1,18 +1,17 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
-import {
-  signupSchema,
-} from "../schema/auth.schema";
+import {signupSchema,} from "../schema/auth.schema";
 
 import { signupUser } from "../service/auth.service";
 
-import {
-  successResponse,
-} from "../../../common/utils/api-response";
+import {successResponse,} from "../../../common/utils/api-response";
 
 import { loginSchema } from "../schema/auth.schema";
 
 import { loginUser } from "../service/auth.service";
+import {updateProfileSchema,} from "../schema/auth.schema";
+
+import {getCurrentUser,updateProfile,} from "../service/auth.service";
 
 
 export const signupController = async (
@@ -74,3 +73,60 @@ export const currentUserController =
       )
     );
   };
+
+  export const getProfileController =
+  async (
+    request: FastifyRequest,
+    reply: FastifyReply
+  ) => {
+
+    const user =
+      await getCurrentUser(
+        request.user.id
+      );
+
+    return reply.send(
+      successResponse(
+        "Profile fetched",
+        user
+      )
+    );
+};
+
+export const updateProfileController =
+  async (
+    request: FastifyRequest,
+    reply: FastifyReply
+  ) => {
+
+    const body =
+      updateProfileSchema.parse(
+        request.body
+      );
+
+    const updatedUser =
+      await updateProfile(
+        request.user.id,
+        body
+      );
+
+    return reply.send(
+      successResponse(
+        "Profile updated successfully",
+        updatedUser
+      )
+    );
+};
+
+export const logoutController =
+  async (
+    request: FastifyRequest,
+    reply: FastifyReply
+  ) => {
+
+    return reply.send(
+      successResponse(
+        "Logout successful"
+      )
+    );
+};

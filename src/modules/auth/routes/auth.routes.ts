@@ -4,6 +4,9 @@ import {
   signupController,
   loginController,
   currentUserController,
+  getProfileController,
+  updateProfileController,
+  logoutController,
 } from "../controller/auth.controller";
 
 import {
@@ -23,6 +26,13 @@ export default async function authRoutes(
     "/login",
     loginController
   );
+  fastify.post(
+    "/logout",
+    {
+      preHandler: [authMiddleware],
+    },
+    logoutController
+  );
 
   fastify.get(
     "/me",
@@ -30,5 +40,21 @@ export default async function authRoutes(
       preHandler: [authMiddleware],
     },
     currentUserController
+  );
+
+  fastify.get(
+    "/profile",
+    {
+      preHandler: [authMiddleware],
+    },
+    getProfileController
+  );
+
+  fastify.put(
+    "/profile",
+    {
+      preHandler: [authMiddleware],
+    },
+    updateProfileController
   );
 }

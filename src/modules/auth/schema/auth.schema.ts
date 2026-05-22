@@ -21,3 +21,19 @@ export const loginSchema = z.object({
 export type LoginInput = z.infer<
   typeof loginSchema
 >;
+
+export const updateProfileSchema =
+  z.object({
+    name: z.string().min(3).optional(),
+
+    phone: z.string().optional(),
+
+    avatar: z.string().optional(),
+
+    address: z.string().optional(),
+  });
+
+export type UpdateProfileInput =
+  z.infer<
+    typeof updateProfileSchema
+  >;
