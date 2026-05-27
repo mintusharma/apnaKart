@@ -6,6 +6,7 @@ import {
   updateProductController,
   deleteProductController,
   getSingleProductController,
+
 } from "../controller/product.controller";
 
 import {
@@ -15,6 +16,11 @@ import {
 import {
   adminMiddleware,
 } from "../../../common/middlewares/admin.middleware";
+
+import {
+  optionalAuthMiddleware,
+} from "../../../common/middlewares/optional-auth.middleware";
+
 
 export default async function productRoutes(
   fastify: FastifyInstance
@@ -59,6 +65,11 @@ export default async function productRoutes(
 
   fastify.get(
   "/:slug",
+   {
+    preHandler: [
+      optionalAuthMiddleware,
+    ],
+  },
   getSingleProductController
 );
 

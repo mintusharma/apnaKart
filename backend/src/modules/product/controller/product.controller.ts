@@ -71,10 +71,9 @@ export const getProductsController =
 
     const products =
       await getProducts(
-        page,
-        limit,
-        search
+        request.query
       );
+
 
     return reply.send(
       successResponse(
@@ -143,9 +142,14 @@ export const getSingleProductController =
         slug: string;
       };
 
+    // OPTIONAL USER
+    const userId =
+      request.user?.id;
+
     const product =
       await getSingleProduct(
-        params.slug
+        params.slug,
+        userId
       );
 
     return reply.send(

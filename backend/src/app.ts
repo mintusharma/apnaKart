@@ -13,6 +13,11 @@ import uploadRoutes from "./modules/auth/routes/upload.routes";
 import cartRoutes from "./modules/cart/routes/cart.routes";
 import addressRoutes from "./modules/address/routes/address.routes";
 import orderRoutes from "./modules/order/routes/order.routes";
+import wishlistRoutes from "./modules/wishlist/routes/wishlist.routes";
+import categoryRoutes from "./modules/category/routes/category.routes";
+import productImageRoutes from "./modules/product-image/routes/product-image.routes";
+import notificationRoutes from "./modules/notification/routes/notification.routes";
+
 
 
 const app = Fastify({
@@ -48,6 +53,22 @@ app.register(addressRoutes, {
 
 app.register(orderRoutes, {
   prefix: "/api/orders",
+});
+
+app.register(wishlistRoutes, {
+  prefix: "/api/wishlist",
+});
+
+app.register(categoryRoutes, {
+  prefix: "/api/categories",
+});
+
+app.register(productImageRoutes, {
+  prefix: "/api/product-images",
+});
+
+app.register(notificationRoutes, {
+  prefix: "/api/notifications",
 });
 
 app.setErrorHandler(errorHandler);
