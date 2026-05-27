@@ -118,3 +118,34 @@ export const deleteProduct =
 
     return true;
 };
+
+export const getSingleProduct =
+  async (slug: string) => {
+
+    const { data, error } =
+      await supabase
+        .from("products")
+        .select(`
+          id,
+          title,
+          slug,
+          description,
+          price,
+          image,
+          stock,
+          category,
+          is_active,
+          created_at
+        `)
+        .eq("slug", slug)
+        .eq("is_active", true)
+        .single();
+
+    if (error) {
+      throw new Error(
+        "Product not found"
+      );
+    }
+
+    return data;
+};

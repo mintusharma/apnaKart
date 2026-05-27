@@ -119,6 +119,27 @@ export const updateCartItem =
     quantity: number
   ) => {
 
+    const {
+      data: existingCart,
+      error: findError,
+    } = await supabase
+      .from("cart_items")
+      .select("*")
+      .eq("id", cartId)
+      .maybeSingle();
+
+    if (findError) {
+      throw new Error(
+        findError.message
+      );
+    }
+
+    if (!existingCart) {
+      throw new Error(
+        "Cart item not found"
+      );
+    }
+
     const { data, error } =
       await supabase
         .from("cart_items")
@@ -127,7 +148,7 @@ export const updateCartItem =
         })
         .eq("id", cartId)
         .select()
-        .single();
+        .maybeSingle();
 
     if (error) {
       throw new Error(

@@ -19,7 +19,10 @@ import {
 import {
   updateProduct,
   deleteProduct,
+  getSingleProduct,
 } from "../service/product.service";
+
+
 
 
 export const createProductController =
@@ -125,6 +128,30 @@ export const deleteProductController =
     return reply.send(
       successResponse(
         "Product deleted"
+      )
+    );
+};
+
+export const getSingleProductController =
+  async (
+    request: FastifyRequest,
+    reply: FastifyReply
+  ) => {
+
+    const params =
+      request.params as {
+        slug: string;
+      };
+
+    const product =
+      await getSingleProduct(
+        params.slug
+      );
+
+    return reply.send(
+      successResponse(
+        "Product fetched",
+        product
       )
     );
 };

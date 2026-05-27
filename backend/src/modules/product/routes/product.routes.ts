@@ -5,6 +5,7 @@ import {
   getProductsController,
   updateProductController,
   deleteProductController,
+  getSingleProductController,
 } from "../controller/product.controller";
 
 import {
@@ -55,4 +56,11 @@ export default async function productRoutes(
     },
     deleteProductController
   );
+
+  fastify.get(
+  "/:slug",
+  getSingleProductController
+);
+
+  
 }
